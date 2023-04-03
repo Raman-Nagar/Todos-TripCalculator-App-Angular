@@ -1,0 +1,46 @@
+<div>
+    <form class="d-flex flex-column m-auto align-items-center gap-4" (submit)="addUser($event)">
+        <h1 class="">Expense Calculator</h1>
+        <div class="row align-items-center justify-content-between" *ngFor="let user of userData">
+            <div class="col">
+                <input name="name" type="name" class="form-control" value="{{user?.name}}"
+                    (change)="handleChange($event, userData.indexOf(user))" placeholder="Name" id="name" />
+            </div>
+            <div class="col">
+                <input name="amount" type="amount" class="form-control" value="{{user?.amount}}"
+                    (change)="handleChange($event, userData.indexOf(user))" placeholder="Amount" id="amount" />
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-danger" (click)="reoveUser(userData.indexOf(user))">X</button>
+            </div>
+        </div>
+        <div class="d-flex flex-column m-auto align-items-center">
+            <div class="my-2">
+                <button type="button" (click)="addMore()" class="btn btn-primary">Add</button>
+            </div>
+            <div class="my-2">
+                <button type="submit" [disabled]="userData.length<=1 || !isValid()" class="btn btn-success">Submit</button>
+                <!-- <button disabled="(userData.length <= 1)" type="submit" class="btn btn-success">Submit</button> -->
+            </div>
+        </div>
+    </form>
+    <div>
+        <table class="table" *ngIf="isResult">
+            <thead >
+                <tr>
+                    <th scope="col">Payer</th>
+                    <th scope="col">Transaction (Receiver =&gt; Amount)</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let res of result">
+                <tr>
+                    <td>{{res[0]}}</td>
+                    <td *ngFor="let trans of res[1]">
+                        <div class="m-1">
+                            <div class="m">{{trans.name}}</div>
+                            <div class="m">{{trans.amount}}</div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
